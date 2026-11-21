@@ -104,3 +104,7 @@ Assignment and the pick screen are tested with a stand-in for herdr.
 ```sh
 bash tests/run.sh
 ```
+
+## ライセンス
+
+[MIT](LICENSE)
