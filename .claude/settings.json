@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "workloop": {
+      "source": {
+        "source": "github",
+        "repo": "asaty94/workloop"
+      },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "workloop@workloop": true
+  }
+}
