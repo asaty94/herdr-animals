@@ -102,3 +102,7 @@ herdr plugin unlink asaty94.animals
 ```sh
 bash tests/run.sh
 ```
+
+## ライセンス
+
+[MIT](LICENSE)
