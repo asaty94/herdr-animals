@@ -2,7 +2,7 @@ id = "asaty94.animals"
 name = "animals"
 version = "0.2.0"
 min_herdr_version = "0.9.5"
-description = "Agents 一覧のエージェント名に、決めた順番で動物の絵文字を付ける（例: 🐶 kiro）"
+description = "Adds an animal emoji to each agent name in the Agents list, in the order you choose (e.g. 🐶 kiro)"
 platforms = ["macos", "linux"]
 
 [[startup]]

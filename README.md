@@ -1,19 +1,21 @@
 # 🐶 herdr-animals
 
-[herdr](https://herdr.dev) のサイドバーに出るエージェント名へ、動物の絵文字を付けるプラグイン。`claude` や `kiro` が `🐶 claude`、`🐱 kiro` になり、エージェントを見分けやすくなる。
+English | [日本語](README.ja.md)
 
-- 使う動物と優先順位を、ターミナルの画面で選ぶ。
-- 動いているエージェントどうしで動物は重ならない。
-- エージェントが動いている間、動物は変わらない。
-- 動物が足りなくなったら、動物の代わりに 🐾 を付ける。
+A [herdr](https://herdr.dev) plugin that adds an animal emoji to each agent name in the sidebar. `claude` and `kiro` become `🐶 claude` and `🐱 kiro`, so you can tell your agents apart at a glance.
 
-## 必要なもの
+- Pick which animals to use, and in what order, in a terminal screen.
+- No two running agents share the same animal.
+- An agent keeps its animal for as long as it runs.
+- When there are not enough animals, 🐾 is shown instead.
 
-- herdr 0.9.5 以上
-- bash と [jq](https://jqlang.org/)（`brew install jq`）
-- macOS か Linux
+## Requirements
 
-## 入れ方
+- herdr 0.9.5 or later
+- bash and [jq](https://jqlang.org/) (`brew install jq`)
+- macOS or Linux
+
+## Install
 
 ```sh
 git clone https://github.com/asaty94/herdr-animals
@@ -21,52 +23,52 @@ herdr plugin link ./herdr-animals
 herdr plugin action invoke asaty94.animals.refresh
 ```
 
-最後の行は、いま動いているエージェントにすぐ動物を付けるためのもの。実行しなくても、次にエージェントの状態が変わったときに付く。
+The last line adds animals to the agents that are already running. If you skip it, they get animals the next time an agent's status changes.
 
-サイドバーの行の設定（`~/.config/herdr/config.toml` の `ui.sidebar.agents.rows`）を変えている場合は、`"agent"` を残しておく。動物はこの `agent` の位置に出る。
+If you have customized the sidebar rows (`ui.sidebar.agents.rows` in `~/.config/herdr/config.toml`), keep `"agent"` in the list. The animal appears where `agent` is shown.
 
-## 動物を選ぶ
+## Pick animals
 
 ```sh
 herdr plugin action invoke asaty94.animals.pick
 ```
 
-動物の一覧がポップアップで開く。チェックを付けた動物だけを使い、上にあるものから先に付ける。
+A popup opens with a list of animals. Only checked animals are used, and the ones nearer the top are used first. The screen text is in Japanese; the keys are:
 
-| キー | 動き |
+| Key | Action |
 |---|---|
-| `↑` `↓`（`k` `j`） | 移動 |
-| `space` | チェックを付ける・外す。付けた動物は、チェック済みの末尾に入る |
-| `t` | 先頭へ移す（いちばん先に使う動物にする） |
-| `K` `J` | 1 つ上へ・下へ |
-| `enter` | 保存して閉じる |
-| `q` `esc` | 保存せずに閉じる |
+| `↑` `↓` (`k` `j`) | Move |
+| `space` | Check or uncheck. A newly checked animal goes to the end of the checked ones |
+| `t` | Move to the top (use this animal first) |
+| `K` `J` | Move up or down by one |
+| `enter` | Save and close |
+| `q` `esc` | Close without saving |
 
-よく使うなら、`~/.config/herdr/config.toml` にキーを割り当てる。herdr はプラグインからキーを登録できないため、手で書く。
+If you use it often, bind a key in `~/.config/herdr/config.toml`. herdr does not let plugins register keys, so you need to add it yourself.
 
 ```toml
 [[keys.command]]
 key = "prefix+shift+a"
 type = "plugin_action"
 command = "asaty94.animals.pick"
-description = "動物を選ぶ"
+description = "Pick animals"
 ```
 
 ```sh
 herdr server reload-config
 ```
 
-## 動物の付き方
+## How animals are assigned
 
-- 新しいエージェントには、いま誰も使っていない動物のうち、いちばん上のものが付く。
-- エージェントが終わると、その動物は空き、次のエージェントに使える。
-- 順番を入れ替えても、すでに付いている動物は変わらない。チェックを外した動物を使っているエージェントだけ、付け直す。
-- 動物がすべて使われているときは 🐾 が付く。あとで動物が空いても 🐾 のまま。画面で動物を選び直して保存すると、🐾 のエージェントにも空いている動物が付く。
-- チェックをすべて外すと、元の名前に戻る。
+- A new agent gets the highest animal in your list that no running agent is using.
+- When an agent exits, its animal becomes free for the next agent.
+- Reordering the list does not change animals that are already assigned. Only agents whose animal you unchecked get a new one.
+- When every animal is in use, the agent gets 🐾. It keeps 🐾 even after an animal becomes free. Saving in the pick screen gives free animals to agents showing 🐾.
+- If you uncheck every animal, agent names go back to normal.
 
-## 設定ファイル
+## Configuration file
 
-選んだ内容は `animals.conf` に保存される。手で書き換えてもよい。一覧にない絵文字も、ここに書けば使える。
+Your choices are saved in `animals.conf`. You can edit it by hand, and you can add emoji that are not in the list.
 
 ```sh
 open "$(herdr plugin config-dir asaty94.animals)/animals.conf"
@@ -77,27 +79,27 @@ open "$(herdr plugin config-dir asaty94.animals)/animals.conf"
 overflow=🐾
 ```
 
-`overflow` は、動物が足りないときに付ける印。手で書き換えたあとは、`refresh` を実行するか、次にエージェントの状態が変わるのを待つ。
+`overflow` is the mark shown when there are not enough animals. After editing the file by hand, run `refresh` or wait until an agent's status changes.
 
-## やめ方
+## Uninstall
 
-動物を選ぶ画面でチェックをすべて外して保存し、名前を元に戻してから外す。
+In the pick screen, uncheck every animal and save so that agent names go back to normal. Then unlink the plugin.
 
 ```sh
 herdr plugin unlink asaty94.animals
 ```
 
-## 開発
+## Development
 
-| ファイル | 役割 |
+| File | Role |
 |---|---|
-| `herdr-plugin.toml` | いつ何を動かすかの定義 |
-| `animals.sh` | 動物の割り当て |
-| `picker.sh` | 動物を選ぶ画面 |
-| `lib.sh` | 設定の読み書き |
-| `catalog.txt` | 画面に出す動物の一覧 |
+| `herdr-plugin.toml` | What runs and when |
+| `animals.sh` | Assigns animals |
+| `picker.sh` | The pick screen |
+| `lib.sh` | Reads and writes the configuration |
+| `catalog.txt` | Animals shown in the pick screen |
 
-割り当てと画面の動きは、herdr の代役を使ったテストで確かめる。
+Assignment and the pick screen are tested with a stand-in for herdr.
 
 ```sh
 bash tests/run.sh
