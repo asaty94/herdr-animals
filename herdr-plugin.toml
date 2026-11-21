@@ -1,6 +1,6 @@
 id = "asaty94.animals"
 name = "animals"
-version = "0.1.0"
+version = "0.2.0"
 min_herdr_version = "0.9.5"
 description = "Agents 一覧のエージェント名に、決めた順番で動物の絵文字を付ける（例: 🐶 kiro）"
 platforms = ["macos", "linux"]
@@ -23,6 +23,24 @@ command = ["bash", "animals.sh"]
 [[events]]
 on = "pane.closed"
 command = ["bash", "animals.sh"]
+
+# herdr の起動時は startup、それ以外はエージェントの出入りを知らせるイベントで動く。
+# どれも同じ見直しを行い、何度動いても結果は変わらない。
+
+# 動物を選ぶ画面。アクション pick が開く。
+[[panes]]
+id = "picker"
+title = "Animals"
+placement = "popup"
+width = 44
+height = "70%"
+command = ["bash", "picker.sh"]
+
+[[actions]]
+id = "pick"
+title = "Animals: 動物を選ぶ"
+contexts = ["global"]
+command = ["bash", "animals.sh", "pick"]
 
 [[actions]]
 id = "refresh"
